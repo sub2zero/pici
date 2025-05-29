@@ -1,0 +1,7 @@
+version: '3'
+
+tasks:
+  build:
+    desc: Build the cmd application
+    cmds:
+      - go build -o bin/pici
