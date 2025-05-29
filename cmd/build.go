@@ -4,10 +4,13 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
+
+var Path string
 
 // buildCmd represents the build command
 var buildCmd = &cobra.Command{
@@ -17,12 +20,19 @@ var buildCmd = &cobra.Command{
 	Long: `Build the application using the specified configuration.
 This command compiles the source code and prepares the application for deployment.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("build called")
+		for key, value := range viper.GetViper().AllSettings() {
+			log.WithFields(log.Fields{
+				key: value,
+			}).Info("Command Flag")
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(buildCmd)
+	buildCmd.PersistentFlags().StringVarP(&Path, "path", "p", ".", "Define the path to scan.")
+	// rootCmd.MarkPersistentFlagRequired("path")
+	viper.BindPFlag("path", buildCmd.PersistentFlags().Lookup("path"))
 
 	// Here you will define your flags and configuration settings.
 
