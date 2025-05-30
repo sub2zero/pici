@@ -8,6 +8,8 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"github.com/sub2zero/pici/internal/docker"
 )
 
 var Path string
@@ -25,6 +27,7 @@ This command compiles the source code and prepares the application for deploymen
 				key: value,
 			}).Info("Command Flag")
 		}
+		build()
 	},
 }
 
@@ -43,4 +46,15 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// buildCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func build() {
+	// This function will contain the logic to build the image.
+	// It will use the Path variable to determine where to look for the Dockerfile.
+	log.Info("Building image from path: ", Path)
+	// Implement the image building logic here.
+	// For example, you could call a Docker API or use a library to build the image.
+	docker.BuildImage(Path)
+	log.Info("Image build process completed successfully.")
+	log.Info("You can now run the image using the 'pici run' command.")
 }
